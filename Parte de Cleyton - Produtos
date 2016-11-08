@@ -1,0 +1,174 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<math.h>
+#include<string.h>
+#include<locale.h>
+
+/*
+
+-void cadastrarprod(); 
+-void buscarprod();
+-void alterarprod();
+-void removerprod();
+-void mostraestoque(); // Mostra informações do estoque: Todos os produtos; Valor total do estoque.
+
+Variável do tipo "Produto" tem: Nome; Marca; Código; Data de validade; Data de chegada no estoque; Unidades.
+
+
+*/
+
+/*LEMBRETE: REVISAR TODOS OS LAÇOS QUE RECEBEM "Resposta", PARA VERIFICAÇÃO DE ERROS. O PROBLEMA GERAL É RESOLVER O QUE ACONTECE QUANDO É RECEBIDO MAIS DE UM CHAR*/
+
+typedef struct{
+	char nome[30];
+	char marca[20];
+	char validade[8];	//data de validade;
+	char chegada[8];	//data de chegada do produto no estoque;
+	float valor;
+	int codigo;
+	int unidades;
+}Produto;
+
+
+void zerarprodutos(Produto* p, int tam){	/* Faz todas as variáveis do vetor declarado no main receberem "NULL" para simbolizar onde não está registrado um produto*/
+	int i;
+	
+	for(i=0;i<tam;i++){
+		strcpy(p[i].nome,"NULL");
+		strcpy(p[i].marca,p[i].nome);	/*	p[i].nome é "NULL" e é copiado para as outras infos de registro	*/
+		strcpy(p[i].validade,p[i].nome);
+		strcpy(p[i].chegada,p[i].nome);
+	}
+	
+}
+
+void cadastrarprod(Produto* p, int tam){ 
+	
+	int i;
+	char resposta = 's';
+	
+	for(i=0;i<tam && resposta != 'n';i++){	// Faz o processo de cadastrar enquanto o usuário escolher não escolher 'n'
+		
+		if(strcmp(p[i].nome,p[i+1].nome)==0){	/*	Compara a string equivalente a "i" e a string sucessora a ela, caso ambos sejam iguais isso quer dizer que são "NULL",
+												 *estão vazias	*/					
+			do{
+				printf("Digite o nome do produto: "); gets(p[i].nome);
+				
+				printf("\n");
+				
+				printf("Valor Unitário:	");	scanf("%i",&p[i].valor); //recebe o valor desse produto
+				getchar();
+				
+				printf("\n");
+				
+				printf("Quantidade de unidades desse produto: ");	scanf("%i",&p[i].unidades); //recebe a quanitdade de unidades de um único produto
+				getchar();
+				
+				system("cls");
+				
+				printf("Confirmar o nome, valor unitário e unidades do produto (%s, R$%.2f e %i unidade(s) ) ?\n s = Sim | n = Não	", p[i].nome, p[i].quantidade);	scanf("%i",&resposta);
+				getchar();
+			
+			}while(resposta != 'n');
+			
+			system("cls");
+			
+			p[i].codigo = rand()%1000 * rand()%1000;
+			/*	Talvez colocar um bip aqui	*/
+			printf("Produto cadastrado. O código desse produto é %i ", p[i].codigo);
+			getchar();
+			
+			system("cls");
+			
+			printf("Deseja cadastrar outro produto? ");	scanf("%c",&resposta);
+			getchar();
+		}
+	}
+	
+}
+
+void buscarprod(Produto* p, int tam){
+	int i;
+	int cod;	// código a ser procurado
+	char resposta;
+	
+	
+	do{
+		
+		printf("Digite o código do produto: ");	scanf("%i",&cod);
+		getchar();	
+	
+		for(i=0;i<tam;i++){
+			
+			if(cod == p[i].codigo){	//	Quando o codigo do produto for igual ao código do produto no vetor de índice "i", é mostrado as informações
+				
+				printf("Produto: %s.\n", p[i].nome);
+				printf("Marca: %s.\n", p[i].marca);
+				printf("Valor Unitário: %.2f\n", p[i].valor);
+				printf("Data de chegada do produto: %s\n", p[i].chegada);
+				printf("Data de validade: %s\n", p[i].validade);
+				printf("Unidades restantes: %i."p[i].unidades);
+				
+				getchar();
+				system("cls");
+			}
+		}
+		
+		printf("Buscar outro produto?\n");
+		
+		while(resposta != 's'	&&	resposta != 'n'){	//	evita que o usuário responda algo diferente de 's' ou de 'n'
+		
+		/*Revisar esse laço, pois quando resposta recebe mais de um char, a mensagem de erro alterna de acordo com a quantidade de caracteres recebidos*/
+			
+			printf("s - SIM | n - NÃO	");	scanf("%c", &resposta);
+			getchar();
+			system("cls");
+		
+		if(resposta != 's' && resposta != 'n'){
+			
+			printf("Você não digitou nem 's' nem 'n'");	// Mensagem de erro 
+			getchar();
+			system("cls");
+			}
+		}
+	}while(resposta != 'n');
+			
+	system("cls");
+}
+
+void alterarprod(Produto* p, int tam, int codigo){
+	int i,x;
+	int count = 0;
+	char resposta;
+	
+	for(i=0;i<tam;i++){
+		if(codigo != p[i].codigo){
+			count++;
+		}
+		else if(codigo == p[i].codigo){
+			break;
+		}
+	}
+	
+	if(count != tam){
+		/*"Produto" tem: Nome; Marca; Código; Data de validade; Data de chegada no estoque; Unidades.*/
+		printf("Digite o número referente a opção desejada: \n\n");
+		printf("1.	Nome;\n");
+		printf("2.	Marca;\n");
+		printf("3.	Data de chegada no estoque;");
+		
+		switch(x){
+			
+			case 1:{
+				
+				break;
+			}
+		}
+		
+	
+	
+	
+	}
+	
+}
